@@ -5,6 +5,17 @@ const onClickAdd = () => {
   const inputText = document.getElementById("add-text").value;
   document.getElementById("add-text").value = "";
 
+  createIncompleteList(inputText);
+};
+
+//未完了リストから指定の要素を削除
+const deleteFromIncompleteList = (target) => {
+  console.log(target);
+  document.getElementById("incomplete-list").removeChild(target);
+};
+
+//未完了リストに追加する関数
+const createIncompleteList = (text) => {
   //liタブ生成
   const li = document.createElement("li");
 
@@ -14,7 +25,7 @@ const onClickAdd = () => {
 
   //pタグ生成、innerTextでinputTextをpタグ内に入れる
   const p = document.createElement("p");
-  p.innerText = inputText;
+  p.innerText = text;
 
   //button(完了)タグ生成
   const completeButton = document.createElement("button");
@@ -48,16 +59,15 @@ const onClickAdd = () => {
     backButton.innerText = "戻す";
     backButton.addEventListener("click", () => {
       //押された戻すボタンの親タグ(li)を完了リストから削除
-      const deleteTarget = backButton.parentNode;
+      const deleteTarget = di.parentNode;
+      //console.log(di.parentNode);
+      document.getElementById("complete-list").removeChild(deleteTarget);
+
       //テキストを取得
-      const text = deleteTarget.firstElementChild.innerText;
+      const text = deleteTarget.firstElementChild.firstElementChild.innerText;
+      //console.log(text);
 
-      deleteTarget.textContent = null;
-
-      const li = document.createElement("li");
-      const div = document.createElement("div");
-      const p = document.createElement("p");
-      p.innerText = text;
+      createIncompleteList(text);
     });
 
     li.appendChild(di);
@@ -91,13 +101,6 @@ const onClickAdd = () => {
   //未完了リストに追加
   document.getElementById("incomplete-list").appendChild(li);
 };
-
-//未完了リストから指定の要素を削除
-const deleteFromIncompleteList = (target) => {
-  document.getElementById("incomplete-list").removeChild(target);
-};
-
-//未完了リストに追加する関数
 
 //追加ボタンが押されたとき、onClickAddを呼ぶ
 document
